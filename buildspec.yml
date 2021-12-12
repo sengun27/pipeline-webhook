@@ -1,0 +1,5 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+        - aws ec2 modify-launch-template --launch-template-name pipeline-test-template --default-version $(aws ec2 describe-launch-template-versions --launch-template-name pipeline-test-template --query 'LaunchTemplateVersions[0].VersionNumber' )

@@ -1,0 +1,25 @@
+Resources:
+  LaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties: 
+      LaunchTemplateName: pipeline-test-template
+      LaunchTemplateData: 
+        CreditSpecification: 
+          CpuCredits: Unlimited
+        ImageId: ami-0e60b6d05dc38ff11
+        InstanceType: t2.micro
+        UserData:
+          Fn::Base64: |
+            #!/bin/bash
+            yum -y update
+            yum install -y ruby
+            yum install -y aws-cli
+            cd /home/ec2-user
+            wget https://aws-codedeploy-us-east-2.s3.us-east-2.amazonaws.com/latest/install
+            chmod +x ./install
+            ./install auto
+        IamInstanceProfile:
+          Name: CodeDeployRole
+        KeyName: ec2-gerels-mac
+        SecurityGroupIds:
+          - sg-0ddf16920c2ee378d
